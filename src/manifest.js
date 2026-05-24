@@ -25,7 +25,7 @@ const manifest = {
       key: 'minVotes',
       type: 'number',
       title: 'Votos mínimos',
-      default: '500',
+      default: '300',
       required: false,
     },
     {
