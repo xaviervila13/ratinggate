@@ -1,0 +1,14 @@
+{
+  "name": "ratinggate",
+  "version": "1.0.0",
+  "description": "Filtra catálogos Stremio por nota mínima (TMDB) - descubre solo contenido de calidad",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node -r dotenv/config src/index.js",
+    "dev": "node --watch -r dotenv/config src/index.js"
+  },
+  "dependencies": {
+    "stremio-addon-sdk": "^1.6.10",
+    "dotenv": "^16.4.7"
+  }
+}
