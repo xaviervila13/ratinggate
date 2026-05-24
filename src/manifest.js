@@ -4,7 +4,7 @@ const manifest = {
   name: 'RatingGate',
   description: 'Filtra catálogos populares por nota mínima. Configura tu umbral y descubre solo contenido de calidad.',
 
-  resources: ['catalog'],
+  resources: ['catalog', 'meta'],
   types: ['movie', 'series'],
 
   behaviorHints: {
