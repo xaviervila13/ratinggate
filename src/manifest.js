@@ -17,7 +17,7 @@ const manifest = {
       key: 'threshold',
       type: 'select',
       title: 'Nota mínima (TMDB)',
-      options: ['5.0', '5.5', '6.0', '6.5', '7.0', '7.5', '8.0'],
+      options: ['5.5', '6.0', '6.5', '7.0', '7.5', '8.0', '8.5'],
       default: '7.0',
       required: true,
     },
@@ -25,7 +25,7 @@ const manifest = {
       key: 'minVotes',
       type: 'number',
       title: 'Votos mínimos',
-      default: '100',
+      default: '500',
       required: false,
     },
     {
@@ -49,22 +49,22 @@ const manifest = {
     {
       type: 'movie',
       id: 'popular-movies',
-      name: 'Populares',
+      name: 'RatingGate - Populares',
     },
     {
       type: 'series',
       id: 'popular-series',
-      name: 'Series Populares',
+      name: 'RatingGate - Series Populares',
     },
     {
       type: 'movie',
       id: 'hidden-gems-movies',
-      name: 'Hidden Gems',
+      name: 'RatingGate - Hidden Gems',
     },
     {
       type: 'series',
       id: 'hidden-gems-series',
-      name: 'Hidden Gems Series',
+      name: 'RatingGate - Hidden Gems Series',
     },
   ],
 }
