@@ -126,6 +126,7 @@ class TMDB {
       background: this.bgUrl(item.backdrop_path),
       releaseInfo: year,
       genres,
+      description: item.overview || undefined,
     }
 
     if (rating) meta.imdbRating = rating
