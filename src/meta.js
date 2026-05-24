@@ -31,14 +31,14 @@ function toISO(dateStr) {
   return isNaN(d.getTime()) ? undefined : d.toISOString()
 }
 
-async function handleMovieMeta(tmdb, id) {
+async function handleMovieMeta(tmdb, id, displayId) {
   const data = await tmdb.fetch(`/movie/${id}`, {
     append_to_response: 'videos,credits',
     language: 'es',
   })
 
   const meta = {
-    id: String(data.id),
+    id: displayId || String(data.id),
     type: 'movie',
     name: data.title,
     poster: tmdb.posterUrl(data.poster_path),
@@ -58,7 +58,7 @@ async function handleMovieMeta(tmdb, id) {
   return { meta }
 }
 
-async function handleSeriesMeta(tmdb, id) {
+async function handleSeriesMeta(tmdb, id, displayId) {
   const data = await tmdb.fetch(`/tv/${id}`, {
     append_to_response: 'videos,credits',
     language: 'es',
@@ -70,7 +70,7 @@ async function handleSeriesMeta(tmdb, id) {
   const releaseInfo = lastYear ? `${firstYear}-${lastYear}` : `${firstYear}-`
 
   const meta = {
-    id: String(data.id),
+    id: displayId || String(data.id),
     type: 'series',
     name: data.name,
     poster: tmdb.posterUrl(data.poster_path),
@@ -118,8 +118,10 @@ function makeMetaHandler(tmdb) {
     const { type, id } = args
 
     try {
-      if (type === 'movie') return await handleMovieMeta(tmdb, id)
-      if (type === 'series') return await handleSeriesMeta(tmdb, id)
+      const mediaType = type === 'series' ? 'tv' : 'movie'
+      const tmdbId = await tmdb.resolveId(id, mediaType)
+      if (type === 'movie') return await handleMovieMeta(tmdb, tmdbId, id)
+      if (type === 'series') return await handleSeriesMeta(tmdb, tmdbId, id)
       return { meta: {} }
     } catch (err) {
       console.error('[RatingGate] meta error:', err.message)

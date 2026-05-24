@@ -63,6 +63,31 @@ class TMDB {
     return found ? found.id : null
   }
 
+  async fetchExternalId(tmdbId, type) {
+    const endpoint = type === 'tv' ? `/tv/${tmdbId}/external_ids` : `/movie/${tmdbId}/external_ids`
+    const data = await this.fetch(endpoint)
+    return data.imdb_id || null
+  }
+
+  async resolveId(id, type) {
+    const strId = String(id)
+    if (!strId.startsWith('tt')) return strId
+
+    const cacheKey = `resolve-${strId}`
+    const cached = this._getCached(cacheKey)
+    if (cached) return cached
+
+    const data = await this.fetch('/find/' + strId, { external_source: 'imdb_id' })
+    const results = type === 'tv' ? data.tv_results : data.movie_results
+    const tmdbId = results?.[0]?.id
+    if (tmdbId) {
+      const tmdbStr = String(tmdbId)
+      this._setCache(cacheKey, tmdbStr, 86400000)
+      return tmdbStr
+    }
+    return strId
+  }
+
   posterUrl(path) {
     if (!path) return ''
     return `${IMAGE_BASE}/${POSTER_SIZE}${path}`
@@ -73,8 +98,8 @@ class TMDB {
     return `${IMAGE_BASE}/${BG_SIZE}${path}`
   }
 
-  async transformMeta(item, type) {
-    const id = String(item.id)
+  async transformMeta(item, type, customId) {
+    const id = customId || String(item.id)
     const title = item.title || item.name || ''
     const year = (item.release_date || item.first_air_date || '').slice(0, 4)
     const rating = item.vote_average ? String(item.vote_average.toFixed(1)) : undefined

@@ -1,5 +1,6 @@
 const PAGES_TO_FETCH = 5
 const TMDB_PAGE_SIZE = 20
+const ID_BATCH_SIZE = 10
 
 const SORT_MAP = {
   popularidad: { movie: 'popularity.desc', tv: 'popularity.desc' },
@@ -99,8 +100,20 @@ function makeCatalogHandler(tmdb) {
         }
       }
 
+      const itemsToShow = allResults.slice(0, 100)
+
+      for (let i = 0; i < itemsToShow.length; i += ID_BATCH_SIZE) {
+        const batch = itemsToShow.slice(i, i + ID_BATCH_SIZE)
+        await Promise.all(batch.map(async (item) => {
+          try {
+            const imdbId = await tmdb.fetchExternalId(item.id, mediaType)
+            if (imdbId) item._imdbId = imdbId
+          } catch {}
+        }))
+      }
+
       const metas = await Promise.all(
-        allResults.slice(0, 100).map((item) => tmdb.transformMeta(item, type))
+        itemsToShow.map((item) => tmdb.transformMeta(item, type, item._imdbId))
       )
 
       return { metas, cacheMaxAge: 3600 }
