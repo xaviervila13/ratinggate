@@ -38,22 +38,24 @@ select,input{width:100%;padding:10px 12px;border:1px solid #333;border-radius:8p
 select:focus,input:focus{outline:none;border-color:#8A5AAB}
 .links{display:flex;gap:12px;margin-top:24px}
 .links a{flex:1;text-align:center;padding:12px 16px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px}
-.btn-desktop{background:#8A5AAB;color:#fff}
+.btn-desktop{background:#8A5AAB;color:#fff;cursor:pointer}
 .btn-web{background:#0f3460;color:#fff}
 .btn-desktop:hover{background:#7a4a9b}
 .btn-web:hover{background:#0a2540}
 .hint{font-size:12px;color:#666;margin-top:6px}
+.note{font-size:13px;color:#999;margin-bottom:16px;background:#16213e;padding:12px;border-radius:8px;line-height:1.4}
 </style>
 </head>
 <body>
 <h1>${manifest.name}</h1>
 <p>${manifest.description}</p>
+<div class="note">Las notas son de TMDB. TMDB y IMDb pueden tener puntuaciones diferentes para un mismo contenido.</div>
 <form id="configForm">${fields}</form>
 <div class="links">
-<a id="desktopLink" class="btn-desktop" target="_blank">Stremio Desktop</a>
+<a id="copyLink" class="btn-desktop">Copiar URL</a>
 <a id="webLink" class="btn-web" target="_blank">Stremio Web</a>
 </div>
-<p class="hint">Elige los valores y haz clic segun tu version de Stremio</p>
+<p class="hint">Usa "Stremio Web" (funciona en web y escritorio). Si prefieres, copia la URL y pégala manualmente en la app.</p>
 <script>
 (function(){
 var form=document.getElementById('configForm')
@@ -61,12 +63,19 @@ function update(){
 var data=new FormData(form),cfg={}
 for(var e of data)cfg[e[0]]=e[1]
 var enc=encodeURIComponent(JSON.stringify(cfg)),h=window.location.host
-document.getElementById('desktopLink').href='stremio://'+h+'/'+enc+'/manifest.json'
 var w='https://'+h+'/'+enc+'/manifest.json'
 document.getElementById('webLink').href='https://web.stremio.com/#/addons?addon='+encodeURIComponent(w)
+document.getElementById('copyLink').setAttribute('data-url',w)
 }
 form.addEventListener('change',update)
 update()
+document.getElementById('copyLink').onclick=function(){
+var url=this.getAttribute('data-url')
+navigator.clipboard.writeText(url).then(function(){
+document.getElementById('copyLink').textContent='Copiado!'
+setTimeout(function(){document.getElementById('copyLink').textContent='Copiar URL'},2000)
+})
+}
 })()
 </script>
 </body>

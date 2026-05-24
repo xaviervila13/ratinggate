@@ -2,7 +2,7 @@ const manifest = {
   id: 'com.ratinggate.app',
   version: '1.0.0',
   name: 'RatingGate',
-  description: 'Filtra catálogos populares por nota mínima. Configura tu umbral y descubre solo contenido de calidad.',
+  description: 'Filtra catálogos populares por nota mínima (TMDB). Configura tu umbral y descubre solo contenido de calidad.',
 
   resources: ['catalog', 'meta'],
   types: ['movie', 'series'],
@@ -16,7 +16,7 @@ const manifest = {
     {
       key: 'threshold',
       type: 'select',
-      title: 'Nota mínima',
+      title: 'Nota mínima (TMDB)',
       options: ['5.0', '5.5', '6.0', '6.5', '7.0', '7.5', '8.0'],
       default: '7.0',
       required: true,
@@ -49,32 +49,12 @@ const manifest = {
     {
       type: 'movie',
       id: 'popular-movies',
-      name: 'Populares (Filtro)',
+      name: 'Populares',
     },
     {
       type: 'series',
       id: 'popular-series',
-      name: 'Series Populares (Filtro)',
-    },
-    {
-      type: 'movie',
-      id: 'top-rated-movies',
-      name: 'Mejor Valoradas',
-    },
-    {
-      type: 'series',
-      id: 'top-rated-series',
-      name: 'Series Mejor Valoradas',
-    },
-    {
-      type: 'movie',
-      id: 'trending-movies',
-      name: 'Tendencias (Filtro)',
-    },
-    {
-      type: 'series',
-      id: 'trending-series',
-      name: 'Tendencias Series (Filtro)',
+      name: 'Series Populares',
     },
     {
       type: 'movie',

@@ -11,10 +11,6 @@ const SORT_MAP = {
 const CATALOG_MAP = {
   'popular-movies': { endpoint: '/discover/movie', postFilter: false, fixedSort: null },
   'popular-series': { endpoint: '/discover/tv', postFilter: false, fixedSort: null },
-  'top-rated-movies': { endpoint: '/discover/movie', postFilter: false, fixedSort: 'vote_average.desc' },
-  'top-rated-series': { endpoint: '/discover/tv', postFilter: false, fixedSort: 'vote_average.desc' },
-  'trending-movies': { endpoint: '/trending/movie/week', postFilter: true, fixedSort: null },
-  'trending-series': { endpoint: '/trending/tv/week', postFilter: true, fixedSort: null },
   'hidden-gems-movies': { endpoint: '/discover/movie', postFilter: false, fixedSort: 'vote_average.desc', gems: true },
   'hidden-gems-series': { endpoint: '/discover/tv', postFilter: false, fixedSort: 'vote_average.desc', gems: true },
 }
